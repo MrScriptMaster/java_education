@@ -17,3 +17,9 @@ class OtherPackage {
 		System.out.println("n_pub = " + p.n_pub);
 	}
 }
+
+class AnotherClassInSameFile {
+	public AnotherClassInSameFile() {
+		// TODO Auto-generated constructor stub
+	}
+}
