@@ -132,7 +132,7 @@ public class Exceptions {
 	{
 		NullPointerException e = new NullPointerException("верхний уровень");
 		
-		e.initCause(e);
+		e.initCause(new ArithmeticException("причина"));
 	}
 }
 
