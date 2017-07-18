@@ -89,7 +89,13 @@ public class GenMain {
 		//CoordShow.show2D(four_dim);	// Нельзя, потому что мы ограничены снизу по классу Point_3d
 		CoordShow.showXYZ(four_dim);	// Можно
 		CoordShow.show4D(four_dim);		// Можно
-		System.out.println("------ обобщения с ограничениями ------");
+		System.out.println("------ конец секции обобщения с ограничениями ------");
+		
+		/*
+		 * Обобщенные методы
+		 */
+		Methods.Show();
+		
 		
 	}
 
