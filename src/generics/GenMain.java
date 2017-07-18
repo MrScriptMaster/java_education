@@ -96,6 +96,11 @@ public class GenMain {
 		 */
 		Methods.Show();
 		
+		/*
+		 * Обобщенные иерархии наследования
+		 */
+		Inheritanse.Show();
+		
 		
 	}
 
