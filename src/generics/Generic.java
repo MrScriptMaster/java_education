@@ -123,3 +123,137 @@ class CalcAverage<T extends Number> {
 	
 } // class CalcAverage
 
+/*
+ * Метасимвольный аргумент также может быть ограничен сверху и/или снизу, чтобы пресекать попытки
+ * передачи несовместимых обобщений.
+ * 
+ * В этом примере у нас есть 3 класса, которые реализуют точку в пространствах разной размерности.
+ * У нас также есть класс, способный выводить эти точки.
+ * 
+ */
+
+class Point<T extends Number> {
+	T x,y;
+	
+	Point(T coord_x, T coord_y)
+	{
+		x = coord_x;
+		y = coord_y;
+	}
+	
+	public String show()
+	{
+		String new_str = new String(x + " " + y);
+		return new_str;
+	}
+} // class Point
+
+class Point_3d extends Point {
+
+	Number z;
+	Point_3d(Number coord_x, Number coord_y, Number coord_z) {
+		super(coord_x, coord_y);
+		z = coord_z;
+	}
+	
+	public String show()
+	{
+		String new_str = super.show();
+		new_str += " " + z;
+		
+		return new_str;
+	}
+} // class Point_3d
+
+class Point_4d extends Point_3d {
+
+	Number z1;
+	Point_4d(Number coord_x, Number coord_y, Number coord_z, Number coord_z1) {
+		super(coord_x, coord_y, coord_z);
+		z1 = coord_z1;
+	}
+	
+	public String show()
+	{
+		String new_str = super.show();
+		new_str += " " + z1;
+		
+		return new_str;
+	}
+} // class Point_4d
+
+/*
+ * Следующий класс работает с абстракцией точки (включая все подклассы).
+ */
+class Coords<V extends Point<?>> {
+	
+	V[] point_mass;
+	
+	Coords(V[] o)
+	{
+		point_mass = o;
+	}
+}
+
+/*
+ * Следующий класс предоставляет методы, которые выводят координаты.
+ */
+class CoordShow {
+	
+	/*
+	 * Этот метод выводит координаты x и y каждой точки в массиве.
+	 */
+	public static void showXY(Coords<?> c)
+	{
+		System.out.println("Координаты X и Y:");
+		for (int i = 0; i < c.point_mass.length; i++)
+		{
+			System.out.println(c.point_mass[i].x + " " + c.point_mass[i].y);
+		}
+		System.out.println();
+	}
+	
+	/*
+	 * Этот метод нарочно огранчивается приемом только точек с тремя координатами.
+	 */
+	public static void showXYZ(Coords<? extends Point_3d> c)
+	{
+		System.out.println("Координаты X, Y, Z:");
+		for (int i = 0; i < c.point_mass.length; i++)
+		{
+			System.out.println(c.point_mass[i].x + " " + c.point_mass[i].y + " " + c.point_mass[i].z);
+		}
+		System.out.println();
+	}
+	
+	/*
+	 * Этот метод нарочно ограничивается только приемом точек с четырьмя координатами.
+	 */
+	public static void show4D(Coords<? extends Point_4d> c)
+	{
+		System.out.println("Координаты X, Y, Z и Z1:");
+		for (int i = 0; i < c.point_mass.length; i++)
+		{
+			System.out.println(c.point_mass[i].x + " " + c.point_mass[i].y + " " + c.point_mass[i].z + " " + c.point_mass[i].z1);
+		}
+		System.out.println();
+	}
+	/*
+	 * Этот метод нарочно ограничивается только приемом точек с двумя координатами, но немного необычно.
+	 * Он ограничивает себя по нижней границе.
+	 * 
+	 * Так как класс Coord ограничивает себя только подклассами Point, включая его самого, то мы можем
+	 * ограничиться по нижней границе ледующим образом: ключевое слово super означает, что принимать можно
+	 * только суперклассы данного класса (в нашем примере это Point_3d). При этом сам Point_3d тоже будет исключаться.
+	 */
+	public static void show2D(Coords<? super Point_3d> c)
+	{
+		System.out.println("Координаты X, Y:");
+		for (int i = 0; i < c.point_mass.length; i++)
+		{
+			System.out.println(c.point_mass[i].x + " " + c.point_mass[i].y);
+		}
+		System.out.println();
+	}
+}
+
