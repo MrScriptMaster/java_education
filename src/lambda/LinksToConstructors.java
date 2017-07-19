@@ -64,6 +64,13 @@ class MyClass_1<T> {
 	
 }
 
+/*
+ * Для ссылки на конструктор массива
+ */
+interface MyArrayCreator<T> {
+	T func(int n);
+}
+
 public class LinksToConstructors {
 
 	public static void main(String[] args) {
@@ -87,6 +94,21 @@ public class LinksToConstructors {
 		
 		MyClass_1<String> mc_1 = myCl_1.func("Привет");
 		System.out.println(mc_1.getVal());
+		
+		/*
+		 * Можно также создавать ссылки на конструкторы массивов
+		 */
+		MyArrayCreator<MyClass[]> MyArrayCons = MyClass[]::new;
+		
+		MyClass[] array = MyArrayCons.func(3);
+		array[0] = new MyClass(1);
+		array[1] = new MyClass(2);
+		array[2] = new MyClass(3);
+		
+		for (MyClass o : array)
+		{
+			System.out.println(o.getVal());
+		}
 	}
 
 }
